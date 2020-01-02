@@ -1,11 +1,10 @@
 import { IDataConnect, IDataContext } from "archdatacore";
-import { isNullOrUndefined } from "util";
 
 let INSTANCE: { [name: string]: IDataConnect; } = {};
 
 export const DataConnects = {
   exist: (name: string) =>
-    !isNullOrUndefined(INSTANCE[name]),
+    (INSTANCE[name] !== null && INSTANCE[name] !== undefined),
   get: (name: string) =>
     INSTANCE[name],
   reset: () => {
