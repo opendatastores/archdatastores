@@ -7,8 +7,8 @@ export const createConnect = (
   let Connector: IDataConnector;
 
   if (typeof connector === "string") {
-    const libPath = connector[0] === "#" ? `archdata${connector.substring(1)}` : connector;
-    Connector = require(libPath);
+    const path = connector[0] === "#" ? `archdata${connector.substring(1)}` : connector;
+    Connector = require(path);
   } else {
     Connector = connector;
   }

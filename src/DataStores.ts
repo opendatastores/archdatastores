@@ -35,7 +35,7 @@ export const DataStores = {
       }
 
       if (typeof connect !== "function") {
-        throw new Error(`INVALID_DATA_CONNECT - name: ${name} - should be a function`);
+        throw new Error(`INVALID_DATA_CONNECT - name: ${name} - must be a function`);
       }
 
       INSTANCE[name] = connect(options);

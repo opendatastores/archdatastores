@@ -1,4 +1,4 @@
-import { IDataConnect, IDataContext } from "archdatacore";
+import { IDataConnect } from "archdatacore";
 
 let INSTANCE: { [name: string]: IDataConnect; } = {};
 
@@ -10,7 +10,7 @@ export const DataConnects = {
   reset: () => {
     INSTANCE = {};
   },
-  set: (name: string, dataConnect: () => IDataContext) => {
+  set: (name: string, dataConnect: IDataConnect) => {
     INSTANCE[name] = dataConnect;
   },
 };
