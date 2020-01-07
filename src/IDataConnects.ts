@@ -1,6 +1,9 @@
 import { IDataConnect } from "archdatacore";
 
 export interface IDataConnects {
-  get: (name: string) => IDataConnect;
-  set: (name: string, dataConnect: IDataConnect) => void;
+  get: (name: string) => {
+    dataConnect: IDataConnect;
+    options?: any;
+  };
+  set: (name: string, values: { dataConnect: IDataConnect; options?: any; }) => void;
 }

@@ -1,7 +1,7 @@
-import { IDataConnector } from "archdatacore";
-import { IDataConnectorConfig } from "./IDataConnectorConfig";
+import { DataConnector } from "archdatacore";
 
-export interface IDataConfig<ConnectorConfig = IDataConnectorConfig> {
-  connector: string | IDataConnector;
-  config: ConnectorConfig;
+export interface IDataConfig<Config = any, Options = any> {
+  config: Config;
+  connector: string | DataConnector;
+  options?: Options;
 }

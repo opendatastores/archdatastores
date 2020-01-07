@@ -7,9 +7,9 @@ export const initialize = (dataConfigs: IDataConfigs, connects: IDataConnects = 
   const keys = Object.keys(dataConfigs);
 
   for (const key of keys) {
-    const { connector, config } = dataConfigs[key];
-    const connect = createConnect(connector, config);
+    const { config, connector, options } = dataConfigs[key];
+    const dataConnect = createConnect(connector, config);
 
-    connects.set(key, connect);
+    connects.set(key, { dataConnect, options });
   }
 };

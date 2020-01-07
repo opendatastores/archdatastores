@@ -1,10 +1,10 @@
-import { IDataConnector } from "archdatacore";
+import { DataConnector } from "archdatacore";
 
 export const createConnect = (
-  connector: string | IDataConnector,
+  connector: string | DataConnector,
   config: any,
 ) => {
-  let Connector: IDataConnector;
+  let Connector: DataConnector;
 
   if (typeof connector === "string") {
     const path = connector[0] === "#" ? `archdata${connector.substring(1)}` : connector;

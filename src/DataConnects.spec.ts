@@ -7,50 +7,29 @@ describe("DataConnects.ts tests", () => {
   describe("#DataConnects.set()", () => {
     it("expect to set the data connect", () => {
       // arranges
-      const connect: any = {};
+      const values: any = {
+        dataConnect: {},
+      };
 
       // acts
-      const act = () => DataConnects.set("test", connect);
+      const act = () => DataConnects.set("test", values);
 
       // asserts
       expect(act).not.to.throw(Error);
     });
-  });
 
-  describe("#DataConnects.get()", () => {
-    it("expect to get the data connect", () => {
+    it("expect to set the data connect with options", () => {
       // arranges
-      const name = "test";
-      const connect: any = {};
-      DataConnects.set(name, connect);
+      const values: any = {
+        dataConnect: {},
+        options: {},
+      };
 
       // acts
-      const result = DataConnects.get(name);
+      const act = () => DataConnects.set("test", values);
 
       // asserts
-      expect(result).to.equal(connect);
-    });
-
-    it("expect to get undefined as the name not exist", () => {
-      // arranges
-      const name = "test";
-
-      // acts
-      const result = DataConnects.get(name);
-
-      // asserts
-      expect(result).to.equal(undefined);
-    });
-
-    it("expect to get false as the name not exist", () => {
-      // arranges
-      const name = "test";
-
-      // acts
-      const result = DataConnects.exist(name);
-
-      // asserts
-      expect(result).to.equal(false);
+      expect(act).not.to.throw(Error);
     });
   });
 });

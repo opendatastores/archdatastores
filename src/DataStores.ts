@@ -1,44 +1,55 @@
-import { IDataContext } from "archdatacore";
+import { IDataConnect, IDataContext } from "archdatacore";
 import { createConnect } from "./core/createConnect";
 import { DataConnects } from "./DataConnects";
 import { IDataConfig } from "./IDataConfig";
-import { IDataConnectorConfig } from "./IDataConnectorConfig";
 import { IDataConnects } from "./IDataConnects";
 
 let INSTANCE: { [name: string]: any; } = {};
 
 export const DataStores = {
-  register: <Config = IDataConnectorConfig>(
+  connect: (name: string): IDataConnect => {
+    const Connects = DataConnects;
+    const { dataConnect } = Connects.get(name);
+
+    return dataConnect;
+  },
+  register: <Config = any, Options = any>(
     name: string,
-    dataConfig: IDataConfig<Config>,
+    dataConfig: IDataConfig<Config, Options>,
     dataConnects?: IDataConnects,
   ) => {
     const Connects = dataConnects || DataConnects;
-    const { config, connector } = dataConfig;
-    const connect = createConnect(connector, config);
-    Connects.set(name, connect);
+    const { config, connector, options } = dataConfig;
+    const dataConnect = createConnect(connector, config);
+    Connects.set(name, { dataConnect, options });
   },
-  reset: () => {
-    INSTANCE = {};
+  reset: (name?: string) => {
+    if (name) {
+      delete INSTANCE[name];
+    } else {
+      INSTANCE = {};
+    }
   },
-  resolve: <DataContext extends IDataContext>(
+  resolve: async <DataContext extends IDataContext>(
     name: string,
     options?: any,
     dataConnects?: IDataConnects,
-  ): DataContext => {
+  ): Promise<DataContext> => {
     if (INSTANCE[name] === undefined) {
       const Connects = dataConnects || DataConnects;
-      const connect = Connects.get(name);
+      const { dataConnect: Connect, options: Options } = Connects.get(name);
 
-      if (connect === undefined) {
+      if (Connect === undefined) {
         throw new Error(`UNDEFINED_DATASTORE - name: ${name}`);
-      }
-
-      if (typeof connect !== "function") {
+      } else if (typeof Connect.connect !== "function") {
         throw new Error(`INVALID_DATA_CONNECT - name: ${name} - must be a function`);
+      } else {
+        if (options === undefined) {
+          INSTANCE[name] = await Connect.connect(Options);
+        } else {
+          INSTANCE[name] = await Connect.connect(options);
+        }
       }
-
-      INSTANCE[name] = connect(options);
     }
 
     return INSTANCE[name];
