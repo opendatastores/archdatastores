@@ -33,6 +33,6 @@
     "archdatacore": "3.0.0-alpha.80"
   },
   "devDependencies": {
-    "archdevts": "20.4.1"
+    "archdevts": "20.12.19"
   }
 }
